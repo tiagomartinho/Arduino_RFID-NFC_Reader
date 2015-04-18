@@ -26,16 +26,21 @@ void setupReader(void)
   Serial.println("Waiting for card");
 }
 
+uint8_t success;
+uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };  // Buffer to store the returned UID//
+uint8_t uidLength;                        // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
+
 void loop(void) {
-  uint8_t success;
-  uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };  // Buffer to store the returned UID//
-  uint8_t uidLength;                        // Length of the UID (4 or 7 bytes depending on ISO14443A card type)
 
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
 
   if (success) {
-    Serial.print("\n{\n \"UID\" : ");
-    nfc.PrintHex(uid, uidLength);
-    Serial.print("}\n");
+    printUID();
   }
+}
+
+void printUID(void) {
+  Serial.print("\n{\n \"UID\" : ");
+  nfc.PrintHex(uid, uidLength);
+  Serial.print("}\n");
 }
