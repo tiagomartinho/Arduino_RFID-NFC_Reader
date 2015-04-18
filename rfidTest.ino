@@ -36,11 +36,12 @@ void loop(void) {
 
   if (success) {
     printUID();
+    delay(1000);
   }
 }
 
 void printUID(void) {
-  Serial.print("\n{\n \"UID\" : ");
+  Serial.print("\n{\n \"UID\" : \"");
   nfc.PrintHex(uid, uidLength);
-  Serial.print("}\n");
+  Serial.print("\"}\n");
 }
